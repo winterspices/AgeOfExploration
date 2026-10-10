@@ -15,10 +15,7 @@ namespace exploration
         public static GameObject santa;
         public static GameObject embarkSanta;
 
-        public static bool explorationInstalled;
-
-        public static float maxPop;
-        public static List<float> pops = new List<float>();
+        public static bool aoeInstalled;
 
         [HarmonyPatch(typeof(FloatingOriginManager))]
         public static class FloatingOriginManagerPatches
@@ -68,6 +65,10 @@ namespace exploration
                             ship.GetComponent<BoatMooringRopes>().mooringFront = frontMoor;
                             ship.GetComponent<BoatMooringRopes>().mooringBack = backMoor;
 
+                            //// reset the shaders for the initial sails
+                            //Transform masts = ship.transform.Find("boat santa maria/structure_container/MASTS");
+                            //UpdateShaders(masts);
+
                             Debug.LogWarning("[Age of Exploration] Santa Maria loaded");
                         }
                         catch (Exception e)
@@ -75,6 +76,23 @@ namespace exploration
                             Debug.LogError($"[Age of Exploration] Could not load Santa Maria due to exception:\n{e}");
                         }
                     }
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Mast))]
+        public static class SaveLoadManagerPatches
+        {
+            [HarmonyPostfix]
+            [HarmonyPatch("AttachSailToMast")]
+            public static void LoadGamePatch(Mast __instance)
+            {
+                if (__instance.shipRigidbody.name == "BOAT SANTA MARIA (222)(Clone)")
+                {
+                    Debug.Log("popped");
+                    // reset the shaders for the initial sails
+                    //Transform masts = ship.transform.Find("boat santa maria/structure_container/MASTS");
+                    UpdateShaders(__instance.transform);
                 }
             }
         }
@@ -93,14 +111,14 @@ namespace exploration
             if (!File.Exists(path + "\\exploration"))
             {
                 Debug.LogError("Age of Exploration not installed correctly");
-                explorationInstalled = false;
+                aoeInstalled = false;
             }
             else
             {
                 AssetBundle bundle = AssetBundle.LoadFromFile(path + "\\exploration");
                 string prefab1 = "Assets/Exploration/BOAT SANTA MARIA (222).prefab";
                 santa = (bundle.LoadAsset(prefab1) as GameObject);
-                explorationInstalled = true;
+                aoeInstalled = true;
             }
         }
 
@@ -116,6 +134,7 @@ namespace exploration
                     {
                         if (material.name != "glass (Instance)")
                         {
+                            Debug.Log(renderer.name);
                             material.shader = Shader.Find(material.shader.name);
                         }
                     }
