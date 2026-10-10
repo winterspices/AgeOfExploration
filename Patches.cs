@@ -55,9 +55,18 @@ namespace exploration
 
                             ship.transform.localRotation = Quaternion.Euler(0f, 326.8f, 0f);
 
+                            // refresh all the shaders
                             UpdateShaders(ship.transform);
 
+                            // rotate it at siren song
                             ship.transform.localRotation = Quaternion.Euler(0f, -104f, 0f);
+
+                            // moor the ship up
+                            Transform frontMoor = GameObject.Find("island 21 M (Siren Song)/dock_mooring M (3)").transform;
+                            Transform backMoor = GameObject.Find("island 21 M (Siren Song)/dock_mooring M (2)").transform;
+
+                            ship.GetComponent<BoatMooringRopes>().mooringFront = frontMoor;
+                            ship.GetComponent<BoatMooringRopes>().mooringBack = backMoor;
 
                             Debug.LogWarning("[Age of Exploration] Santa Maria loaded");
                         }
