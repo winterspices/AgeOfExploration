@@ -4,6 +4,8 @@ La Santa María de la Inmaculada Concepción or La Santa Maria, originally La Ga
 
 Sailwind has a notable lack of carrack and galleon style ships, and this mod aims to fix this. Currently only the Santa Maria (Carrack) is implemented, there will be more coming. 
 
+The carrack is located at Siren Song next to the cog, and is bought for 80 gold.
+
 ## Dependencies
 - BepInEx 5
 
