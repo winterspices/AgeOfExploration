@@ -1,3 +1,5 @@
+<img width="2560" height="1080" alt="image" src="https://github.com/user-attachments/assets/0163519d-cde5-47c9-86d5-245b9f632a12" />
+
 # Age of Exploration
 This mod adds a couple of Spanish ships, with fully bespoke models and customisation options. Sailwind has a notable lack of carrack and galleon style ships, and this mod aims to fix this.
 
