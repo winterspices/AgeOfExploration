@@ -43,6 +43,9 @@
     <Reference Include="Crest">
       <HintPath>W:\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\Crest.dll</HintPath>
     </Reference>
+    <Reference Include="CustomIslandAPI">
+      <HintPath>..\CustomIslandFramework\bin\Debug\CustomIslandAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Oculus.VR">
       <HintPath>W:\Steam\steamapps\common\Sailwind\Sailwind_Data\Managed\Oculus.VR.dll</HintPath>
     </Reference>

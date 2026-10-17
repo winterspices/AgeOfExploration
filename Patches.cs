@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using CustomIslandAPI;
 using HarmonyLib;
 using System;
 using System.Collections;
@@ -18,6 +19,11 @@ namespace exploration
         public static GameObject asturias;
         public static GameObject asturiasAsset;
         public static GameObject embarkAsturias;
+
+        public static GameObject huelva;
+        public static GameObject huelvaAsset;
+        public static GameObject huelvaShelf;
+        public static GameObject huelvaShelfAsset;
 
         public static bool aoeInstalled;
 
@@ -125,6 +131,36 @@ namespace exploration
                             Debug.LogError($"[Age of Exploration] Could not load Asturias due to exception:\n{e}");
                         }
                     }
+
+                    //if (huelvaAsset)
+                    //{
+                    //    try
+                    //    {
+                    //        huelva = UnityEngine.Object.Instantiate<GameObject>(huelvaAsset, __instance.transform);
+
+                    //        //IslandManager.InitialiseIsland(huelva, 68, PortRegion.alankh, Currency.alAnkh);
+
+                    //        Debug.LogWarning($"[Age of Exploration] Huelva loaded");
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        Debug.LogError($"[Age of Exploration] Could not load island Huelva due to exception:\n{e}");
+                    //    }
+                    //}
+
+                    //if (huelvaShelfAsset)
+                    //{
+                    //    try
+                    //    {
+                    //        huelvaShelf = UnityEngine.Object.Instantiate<GameObject>(huelvaShelfAsset, __instance.transform);
+
+                    //        Debug.LogWarning($"[Age of Exploration] Huelva's shelf loaded");
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        Debug.LogError($"[Age of Exploration] Could not load island Huelva's shelf due to exception:\n{e}");
+                    //    }
+                    //}
                 }
             }
         }
@@ -150,12 +186,15 @@ namespace exploration
             {
                 AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(path, "exploration"));
 
-                string prefab1 = "Assets/Exploration/BOAT SANTA MARIA (222).prefab";
-                santaAsset = (bundle.LoadAsset(prefab1) as GameObject);
-                
+                santaAsset = (bundle.LoadAsset("Assets/Exploration/BOAT SANTA MARIA (222).prefab") as GameObject);
+                asturiasAsset = (bundle.LoadAsset("Assets/Exploration/BOAT ASTURIAS (227).prefab") as GameObject);
 
-                string prefab2 = "Assets/Exploration/BOAT ASTURIAS (227).prefab";
-                asturiasAsset = (bundle.LoadAsset(prefab2) as GameObject);
+                //huelvaAsset = (bundle.LoadAsset("Assets/Exploration/island 68 Huelva.prefab") as GameObject);
+                //huelvaShelfAsset = (bundle.LoadAsset("Assets/Exploration/huelva shelf.prefab") as GameObject);
+
+                //// scenery
+                //AssetBundle b = AssetBundle.LoadFromFile(Path.Combine(path, "explorationscenery"));
+                //IslandManager.sceneIndexes.Add(68, "Assets/Exploration/Scenes/island 68 Huelva.unity");
 
                 aoeInstalled = true;
             }
@@ -176,21 +215,6 @@ namespace exploration
                             material.shader = Shader.Find(material.shader.name);
                         }
                     }
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(Mast))]
-        public static class SaveLoadManagerPatches
-        {
-            [HarmonyPostfix]
-            [HarmonyPatch("AttachSailToMast")]
-            public static void LoadGamePatch(Mast __instance)
-            {
-                if (__instance.shipRigidbody.name == "BOAT SANTA MARIA (222)(Clone)" || __instance.shipRigidbody.name == "BOAT ASTURIAS (227)(Clone)")
-                {
-                    // reset the shaders for the initial sails
-                    UpdateShaders(__instance.transform);
                 }
             }
         }
